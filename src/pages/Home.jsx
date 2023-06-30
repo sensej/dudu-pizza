@@ -16,15 +16,18 @@ function Home() {
         setItems(data);
         setIsLoading(false);
       });
+    window.scrollTo(0, 0);
   }, []);
 
   return (
-    <>
+    <div className="container">
       <div className="content__top">
         <Categories />
         <Sort />
       </div>
-      <h2 className="content__title">Все пиццы</h2>
+      <h2 className="content__title">
+        Все <span>пиццы</span>
+      </h2>
       <div className="content__items">
         {isLoading
           ? [...new Array(8)].map((_, i) => {
@@ -34,7 +37,7 @@ function Home() {
               return <PizzaCard key={item.id} {...item} />;
             })}
       </div>
-    </>
+    </div>
   );
 }
 
