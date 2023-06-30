@@ -5,12 +5,12 @@
   // flex-direction: column;
   // justify-content: center;
   // align-items: center;
-  // width: 280px;
+  width: 280px;
   text-align: center;
-  // margin-bottom: 65px;
+  margin-bottom: 65px;
 
   &:not(:nth-of-type(4n)) {
-    // margin-right: 35px;
+    margin-right: 35px;
   }
 
   &__image {

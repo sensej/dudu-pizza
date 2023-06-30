@@ -24,12 +24,12 @@ body {
   }
 
   &__items {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 65px;
-    // display: flex;
-    // flex-wrap: wrap;
-    // justify-content: space-between;
+    // display: grid;
+    // grid-template-columns: repeat(4, 1fr);
+    // gap: 65px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
 
   &__top {
