@@ -1,10 +1,16 @@
 import { useState } from "react";
 
-function Sort() {
+function Sort({ value, onClickSort }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeSortIndex, setActiveSortIndex] = useState(0);
 
-  const sortItems = ["популярности", "цене", "алфавиту"];
+  const sortItems = [
+    { name: "популярности (возр.)", sortProperty: "rating" },
+    { name: "популярности (убыв.)", sortProperty: "-rating" },
+    { name: "цене (возр.)", sortProperty: "price" },
+    { name: "цене (убыв.)", sortProperty: "-price" },
+    { name: "алфавиту (возр.)", sortProperty: "title" },
+    { name: "алфавиту (убыв.)", sortProperty: "-title" },
+  ];
 
   return (
     <div className="sort">
@@ -44,7 +50,7 @@ function Sort() {
             setIsOpen(!isOpen);
           }}
         >
-          {sortItems[activeSortIndex]}
+          {value.name}
         </span>
       </div>
       {isOpen && (
@@ -54,13 +60,15 @@ function Sort() {
               return (
                 <li
                   onClick={() => {
-                    setActiveSortIndex(i);
+                    onClickSort(item);
                     setIsOpen(false);
                   }}
                   key={i}
-                  className={activeSortIndex === i ? "active" : ""}
+                  className={
+                    item.sortProperty === value.sortProperty ? "active" : ""
+                  }
                 >
-                  {item}
+                  {item.name}
                 </li>
               );
             })}

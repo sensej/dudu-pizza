@@ -8,22 +8,40 @@ import Skeleton from "../components/PizzaCard/Skeleton";
 function Home() {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState(0);
+  const [sortType, setSortType] = useState({
+    name: "популярности (возр.)",
+    sortProperty: "rating",
+  });
+
+  console.log(sortType);
 
   useEffect(() => {
-    fetch("https://649a7667bf7c145d0238dd8f.mockapi.io/pizzas")
+    setIsLoading(true);
+
+    const category = activeCategory === 0 ? "" : `category=${activeCategory}`;
+    const sortBy = sortType.sortProperty.replace("-", "");
+    const order = sortType.sortProperty.includes("-") ? "desc" : "asc";
+
+    fetch(
+      `https://649a7667bf7c145d0238dd8f.mockapi.io/pizzas?${category}&sortBy=${sortBy}&order=${order}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setItems(data);
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, []);
+  }, [activeCategory, sortType]);
 
   return (
     <div className="container">
       <div className="content__top">
-        <Categories />
-        <Sort />
+        <Categories
+          value={activeCategory}
+          onClickCategory={(id) => setActiveCategory(id)}
+        />
+        <Sort value={sortType} onClickSort={(id) => setSortType(id)} />
       </div>
       <h2 className="content__title">
         Все <span>пиццы</span>
