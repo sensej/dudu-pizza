@@ -9,7 +9,7 @@
     align-items: center;
     justify-content: space-between;
 
-    @media (max-width: 645px) {
+    @media (max-width: 790px) {
       gap: 25px;
       flex-direction: column;
     }
@@ -32,6 +32,14 @@
 
     p {
       color: #7b7b7b;
+
+      @media (max-width: 1000px) {
+        display: none;
+      }
+
+      @media (max-width: 790px) {
+        display: inline-block;
+      }
     }
   }
 }
