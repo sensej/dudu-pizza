@@ -7,7 +7,7 @@ function PizzaCard({
   sizes,
   types,
 }) {
-  const [activeType, setActiveType] = useState(0);
+  const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(0);
 
   const typeNames = ["тонкое", "традиционное"];
@@ -19,15 +19,17 @@ function PizzaCard({
         <h4 className="pizza-block__title">{title}</h4>
         <div className="pizza-block__selector">
           <ul>
-            {types.map((type) => (
-              <li
-                key={type}
-                onClick={() => setActiveType(type)}
-                className={activeType === type ? "active" : ""}
-              >
-                {typeNames[type]}
-              </li>
-            ))}
+            {types.map((type) => {
+              return (
+                <li
+                  key={type}
+                  onClick={() => setActiveType(type)}
+                  className={activeType === type ? "active" : ""}
+                >
+                  {typeNames[type]}
+                </li>
+              );
+            })}
           </ul>
           <ul>
             {sizes.map((size, i) => (
