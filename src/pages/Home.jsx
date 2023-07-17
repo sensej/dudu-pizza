@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
 import { SearchContext } from "../App";
 import { useSelector, useDispatch } from "react-redux";
 import { setActiveCategoryId } from "../redux/slices/filterSlice";
@@ -26,14 +27,15 @@ function Home() {
     const order = sortType.sortProperty.includes("-") ? "desc" : "asc";
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    fetch(
-      `https://649a7667bf7c145d0238dd8f.mockapi.io/pizzas?${category}&sortBy=${sortBy}&order=${order}${search}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setItems(data);
+    axios
+      .get(
+        `https://649a7667bf7c145d0238dd8f.mockapi.io/pizzas?${category}&sortBy=${sortBy}&order=${order}${search}`
+      )
+      .then((res) => {
+        setItems(res.data);
         setIsLoading(false);
       });
+
     window.scrollTo(0, 0);
   }, [activeCategoryId, sortType, searchValue]);
 
