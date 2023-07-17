@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/dudu-pizza/static/css/main.8a29da6c.css",
-    "main.js": "/dudu-pizza/static/js/main.936b6f8a.js",
+    "main.css": "/dudu-pizza/static/css/main.6ea7d28f.css",
+    "main.js": "/dudu-pizza/static/js/main.378ecf28.js",
     "static/media/pizza-logo.svg": "/dudu-pizza/static/media/pizza-logo.56ac87032d8f6fdf863326acd06c0d97.svg",
     "index.html": "/dudu-pizza/index.html",
-    "main.8a29da6c.css.map": "/dudu-pizza/static/css/main.8a29da6c.css.map",
-    "main.936b6f8a.js.map": "/dudu-pizza/static/js/main.936b6f8a.js.map"
+    "main.6ea7d28f.css.map": "/dudu-pizza/static/css/main.6ea7d28f.css.map",
+    "main.378ecf28.js.map": "/dudu-pizza/static/js/main.378ecf28.js.map"
   },
   "entrypoints": [
-    "static/css/main.8a29da6c.css",
-    "static/js/main.936b6f8a.js"
+    "static/css/main.6ea7d28f.css",
+    "static/js/main.378ecf28.js"
   ]
 }
