@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../redux/slices/cartSlice";
 
+export const typeNames = ["тонкое", "традиционное"];
+
 function PizzaCard({ id, title, price, imageUrl, sizes, types }) {
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(0);
@@ -12,16 +14,15 @@ function PizzaCard({ id, title, price, imageUrl, sizes, types }) {
 
   const addedCount = cartItem ? cartItem.count : 0;
 
-  const typeNames = ["тонкое", "традиционное"];
-
   const handleAddItem = () => {
     const item = {
       id,
       title,
       price,
       imageUrl,
-      activeSize,
-      activeType,
+      size: sizes[activeSize],
+      type: typeNames[activeType],
+      sizes,
     };
 
     dispath(addItem(item));

@@ -107,6 +107,7 @@ body {
   }
 
   .content__items {
+    grid-template-rows: repeat(1, 1fr);
     grid-template-columns: repeat(1, 1fr);
   }
 
@@ -133,6 +134,8 @@ body {
     align-items: center;
     cursor: pointer;
     @include noselect();
+    border: 0;
+    background: none;
 
     span {
       display: inline-block;
@@ -363,7 +366,8 @@ body {
 
   &--empty {
     margin: 0 auto;
-    width: 560px;
+    width: 100%;
+    max-width: 560px;
     text-align: center;
 
     h2 {
