@@ -63,9 +63,27 @@ body {
     align-items: center;
     justify-content: space-between;
 
-    @media (max-width: 1300px) {
+    @media (max-width: 1350px) {
       flex-direction: column;
       gap: 30px;
+    }
+  }
+
+  &__error-info {
+    width: 100%;
+    max-width: 500px;
+    margin: 120px auto;
+    text-align: center;
+
+    h2 {
+      font-size: 38px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 45px;
+    }
+
+    p {
+      font-size: 20px;
     }
   }
 }
