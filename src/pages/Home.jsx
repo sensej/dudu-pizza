@@ -1,7 +1,6 @@
-import React, { useEffect, useContext, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import qs from "qs";
-import { SearchContext } from "../App";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setActiveCategoryId, setFilters } from "../redux/slices/filterSlice";
 import Categories from "../components/Categories";
@@ -12,13 +11,14 @@ import { fetchPizzas } from "../redux/slices/pizzaSlice";
 
 function Home() {
   const { items, status } = useSelector((state) => state.pizzaReducer);
-  const { searchValue } = useContext(SearchContext);
+  const { searchValue } = useSelector((state) => state.filterReducer);
   const { activeCategoryId, sortType } = useSelector(
     (state) => state.filterReducer
   );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
@@ -33,7 +33,7 @@ function Home() {
   };
 
   useEffect(() => {
-    const search = window.location.search;
+    const search = location.search;
 
     if (search) {
       const params = qs.parse(search.substring(1));
