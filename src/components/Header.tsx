@@ -4,8 +4,11 @@ import logoSvg from "../assets/img/pizza-logo.svg";
 import Search from "./Search";
 
 function Header() {
-  const { items, totalPrice } = useSelector((state) => state.cartReducer);
-  const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+  const { items, totalPrice } = useSelector((state: any) => state.cartReducer);
+  const totalCount = items.reduce(
+    (sum: number, item: any) => sum + item.count,
+    0
+  );
   const location = useLocation();
   const pathname = location.pathname;
 

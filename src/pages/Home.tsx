@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import qs from "qs";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setActiveCategoryId, setFilters } from "../redux/slices/filterSlice";
 import Categories from "../components/Categories";
@@ -9,31 +9,20 @@ import PizzaCard from "../components/PizzaCard";
 import Skeleton from "../components/PizzaCard/Skeleton";
 import { fetchPizzas } from "../redux/slices/pizzaSlice";
 
-function Home() {
-  const { items, status } = useSelector((state) => state.pizzaReducer);
-  const { searchValue } = useSelector((state) => state.filterReducer);
+const Home: React.FC = () => {
+  const { items, status } = useSelector((state: any) => state.pizzaReducer);
+  const { searchValue } = useSelector((state: any) => state.filterReducer);
   const { activeCategoryId, sortType } = useSelector(
-    (state) => state.filterReducer
+    (state: any) => state.filterReducer
   );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const getPizzas = async () => {
-    const category =
-      activeCategoryId === 0 ? "" : `category=${activeCategoryId}`;
-    const sortBy = sortType.sortProperty.replace("-", "");
-    const order = sortType.sortProperty.includes("-") ? "desc" : "asc";
-    const search = searchValue ? `&search=${searchValue}` : "";
-
-    dispatch(fetchPizzas({ category, sortBy, order, search }));
-  };
-
   useEffect(() => {
-    const search = location.search;
+    const search = window.location.search;
 
     if (search) {
       const params = qs.parse(search.substring(1));
@@ -49,9 +38,20 @@ function Home() {
       );
       isSearch.current = true;
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
+    const getPizzas = async () => {
+      const category =
+        activeCategoryId === 0 ? "" : `category=${activeCategoryId}`;
+      const sortBy = sortType.sortProperty.replace("-", "");
+      const order = sortType.sortProperty.includes("-") ? "desc" : "asc";
+      const search = searchValue ? `&search=${searchValue}` : "";
+
+      // @ts-ignore
+      dispatch(fetchPizzas({ category, sortBy, order, search }));
+    };
+
     if (!isSearch.current) {
       getPizzas();
     }
@@ -59,7 +59,7 @@ function Home() {
     window.scrollTo(0, 0);
 
     isSearch.current = false;
-  }, [activeCategoryId, sortType, searchValue]);
+  }, [activeCategoryId, sortType, searchValue, dispatch]);
 
   useEffect(() => {
     if (isMounted.current) {
@@ -71,13 +71,13 @@ function Home() {
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
-  }, [activeCategoryId, sortType]);
+  }, [activeCategoryId, sortType, navigate]);
 
   const pizzasItems = items
-    .filter((obj) =>
+    .filter((obj: any) =>
       obj.title.toLowerCase().includes(searchValue.toLowerCase())
     )
-    .map((item) => {
+    .map((item: any) => {
       return <PizzaCard key={item.id} {...item} />;
     });
   const skeletonsItems = [...new Array(8)].map((_, i) => {
@@ -89,7 +89,9 @@ function Home() {
       <div className="content__top">
         <Categories
           value={activeCategoryId}
-          onClickCategory={(value) => dispatch(setActiveCategoryId(value))}
+          onClickCategory={(value: number) =>
+            dispatch(setActiveCategoryId(value))
+          }
         />
         <Sort />
       </div>
@@ -113,6 +115,6 @@ function Home() {
       )}
     </div>
   );
-}
+};
 
 export default Home;

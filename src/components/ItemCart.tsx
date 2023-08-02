@@ -1,18 +1,36 @@
 import { useDispatch } from "react-redux";
 import { addItem, removeItem, decreaseItem } from "../redux/slices/cartSlice";
 
-const ItemCart = ({ id, title, imageUrl, count, price, size, type }) => {
+type ItemCartProps = {
+  id: number;
+  title: string;
+  imageUrl: string;
+  count: number;
+  price: number;
+  size: number;
+  type: string;
+};
+
+const ItemCart: React.FC<ItemCartProps> = ({
+  id,
+  title,
+  imageUrl,
+  count,
+  price,
+  size,
+  type,
+}) => {
   const dispatch = useDispatch();
 
-  const handleAdd = (id, count) => {
+  const handleAdd = (id: number, count: number) => {
     dispatch(addItem({ id, count }));
   };
 
-  const handleDecrease = (id) => {
+  const handleDecrease = (id: number) => {
     dispatch(decreaseItem(id));
   };
 
-  const handleRemove = (id) => {
+  const handleRemove = (id: number) => {
     dispatch(removeItem(id));
   };
 
