@@ -1,32 +1,39 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setSortType } from "../redux/slices/filterSlice";
+import { SortTypes, setSortType } from "../redux/slices/filterSlice";
+import { RootState } from "../redux/store";
 
 type SortItem = {
   name: string;
-  sortProperty: string;
+  sortProperty: SortTypes;
 };
 
 export const sortItems: SortItem[] = [
-  { name: "популярности (возр.)", sortProperty: "rating" },
-  { name: "популярности (убыв.)", sortProperty: "-rating" },
-  { name: "цене (возр.)", sortProperty: "price" },
-  { name: "цене (убыв.)", sortProperty: "-price" },
-  { name: "алфавиту (возр.)", sortProperty: "title" },
-  { name: "алфавиту (убыв.)", sortProperty: "-title" },
+  { name: "популярности (возр.)", sortProperty: SortTypes.RATING_ASK },
+  { name: "популярности (убыв.)", sortProperty: SortTypes.RATING_DESC },
+  { name: "цене (возр.)", sortProperty: SortTypes.PRICE_ASK },
+  { name: "цене (убыв.)", sortProperty: SortTypes.PRICE_DESC },
+  { name: "алфавиту (возр.)", sortProperty: SortTypes.TITLE_ASK },
+  { name: "алфавиту (убыв.)", sortProperty: SortTypes.TITLE_DESC },
 ];
 
 function Sort() {
   const [isOpen, setIsOpen] = useState(false);
   const sortRef = useRef<HTMLDivElement>(null);
-  const sortType = useSelector((state: any) => state.filterReducer.sortType);
+  const sortType = useSelector(
+    (state: RootState) => state.filterReducer.sortType
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      const path = event.composedPath ? event.composedPath() : event.path;
+    const handleClickOutside = (event: MouseEvent) => {
+      const _event = event as MouseEvent & {
+        path: Node[];
+        composedPath: () => Node[];
+      };
+      const path = _event.composedPath ? _event.composedPath() : _event.path;
 
-      if (!path.includes(sortRef.current)) {
+      if (sortRef.current && !path.includes(sortRef.current)) {
         setIsOpen(false);
       }
     };

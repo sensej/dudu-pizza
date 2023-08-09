@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../redux/slices/cartSlice";
+import { ItemCart, addItem } from "../../redux/slices/cartSlice";
+import { RootState } from "../../redux/store";
 
 export const typeNames = ["тонкое", "традиционное"];
 
@@ -11,6 +12,8 @@ type PizzaCardProps = {
   imageUrl: string;
   sizes: number[];
   types: number[];
+  rating: number;
+  category: number;
 };
 
 const PizzaCard: React.FC<PizzaCardProps> = ({
@@ -20,10 +23,12 @@ const PizzaCard: React.FC<PizzaCardProps> = ({
   imageUrl,
   sizes,
   types,
+  rating,
+  category,
 }) => {
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(0);
-  const cartItem = useSelector((state: any) =>
+  const cartItem = useSelector((state: RootState) =>
     state.cartReducer.items.find((obj: any) => obj.id === id)
   );
   const dispath = useDispatch();
@@ -31,14 +36,18 @@ const PizzaCard: React.FC<PizzaCardProps> = ({
   const addedCount = cartItem ? cartItem.count : 0;
 
   const handleAddItem = () => {
-    const item = {
+    const item: ItemCart = {
       id,
       title,
       price,
       imageUrl,
       size: sizes[activeSize],
       type: typeNames[activeType],
+      count: 0,
+      rating,
       sizes,
+      types,
+      category,
     };
 
     dispath(addItem(item));

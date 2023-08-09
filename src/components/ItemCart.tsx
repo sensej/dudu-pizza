@@ -1,7 +1,12 @@
 import { useDispatch } from "react-redux";
-import { addItem, removeItem, decreaseItem } from "../redux/slices/cartSlice";
+import {
+  addItem,
+  removeItem,
+  decreaseItem,
+  ItemCart,
+} from "../redux/slices/cartSlice";
 
-type ItemCartProps = {
+export type ItemCartProps = {
   id: number;
   title: string;
   imageUrl: string;
@@ -11,7 +16,7 @@ type ItemCartProps = {
   type: string;
 };
 
-const ItemCart: React.FC<ItemCartProps> = ({
+const ItemCartBlock: React.FC<ItemCartProps> = ({
   id,
   title,
   imageUrl,
@@ -23,7 +28,7 @@ const ItemCart: React.FC<ItemCartProps> = ({
   const dispatch = useDispatch();
 
   const handleAdd = (id: number, count: number) => {
-    dispatch(addItem({ id, count }));
+    dispatch(addItem({ id, count } as ItemCart));
   };
 
   const handleDecrease = (id: number) => {
@@ -120,4 +125,4 @@ const ItemCart: React.FC<ItemCartProps> = ({
   );
 };
 
-export default ItemCart;
+export default ItemCartBlock;

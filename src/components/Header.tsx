@@ -2,11 +2,24 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import logoSvg from "../assets/img/pizza-logo.svg";
 import Search from "./Search";
+import { RootState } from "../redux/store";
+
+export type CartItem = {
+  id: number;
+  title: string;
+  imageUrl: string;
+  count: number;
+  price: number;
+  size: number;
+  type: string;
+};
 
 function Header() {
-  const { items, totalPrice } = useSelector((state: any) => state.cartReducer);
+  const { items, totalPrice } = useSelector(
+    (state: RootState) => state.cartReducer
+  );
   const totalCount = items.reduce(
-    (sum: number, item: any) => sum + item.count,
+    (sum: number, item: CartItem) => sum + item.count,
     0
   );
   const location = useLocation();

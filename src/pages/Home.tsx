@@ -1,22 +1,39 @@
 import React, { useEffect, useRef } from "react";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { setActiveCategoryId, setFilters } from "../redux/slices/filterSlice";
 import Categories from "../components/Categories";
 import Sort, { sortItems } from "../components/Sort";
 import PizzaCard from "../components/PizzaCard";
 import Skeleton from "../components/PizzaCard/Skeleton";
 import { fetchPizzas } from "../redux/slices/pizzaSlice";
+import { RootState, useAppDispatch } from "../redux/store";
+import { SearchParams } from "../redux/slices/pizzaSlice";
+
+export type Item = {
+  category: number;
+  id: number;
+  imageUrl: string;
+  price: number;
+  rating: number;
+  sizes: number[];
+  title: string;
+  types: number[];
+};
 
 const Home: React.FC = () => {
-  const { items, status } = useSelector((state: any) => state.pizzaReducer);
-  const { searchValue } = useSelector((state: any) => state.filterReducer);
+  const { items, status } = useSelector(
+    (state: RootState) => state.pizzaReducer
+  );
+  const { searchValue } = useSelector(
+    (state: RootState) => state.filterReducer
+  );
   const { activeCategoryId, sortType } = useSelector(
-    (state: any) => state.filterReducer
+    (state: RootState) => state.filterReducer
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
@@ -25,15 +42,16 @@ const Home: React.FC = () => {
     const search = window.location.search;
 
     if (search) {
-      const params = qs.parse(search.substring(1));
+      const params = qs.parse(search.substring(1)) as unknown as SearchParams;
       const sort = sortItems.find((item) => {
-        return item.sortProperty === params.sortType;
+        return item.sortProperty === params.sortBy;
       });
 
       dispatch(
         setFilters({
-          ...params,
-          sortType: sort,
+          searchValue: params.search,
+          activeCategoryId: Number(params.category) || 0,
+          sortType: sort || sortItems[0],
         })
       );
       isSearch.current = true;
@@ -48,7 +66,6 @@ const Home: React.FC = () => {
       const order = sortType.sortProperty.includes("-") ? "desc" : "asc";
       const search = searchValue ? `&search=${searchValue}` : "";
 
-      // @ts-ignore
       dispatch(fetchPizzas({ category, sortBy, order, search }));
     };
 
@@ -74,10 +91,10 @@ const Home: React.FC = () => {
   }, [activeCategoryId, sortType, navigate]);
 
   const pizzasItems = items
-    .filter((obj: any) =>
+    .filter((obj: Item) =>
       obj.title.toLowerCase().includes(searchValue.toLowerCase())
     )
-    .map((item: any) => {
+    .map((item: Item) => {
       return <PizzaCard key={item.id} {...item} />;
     });
   const skeletonsItems = [...new Array(8)].map((_, i) => {
